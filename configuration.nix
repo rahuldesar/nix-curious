@@ -68,11 +68,26 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  programs = {
+     zsh = {
+        enable = true;
+        autosuggestions.enable = true;
+        zsh-autoenv.enable = true;
+        syntaxHighlighting.enable = true;
+     };
+  };
+
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vader = {
     isNormalUser = true;
     description = "vader";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [
+        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCEsztEnDtojTl8Nlxx51YS4A2RGCUUIbxGM+6cX9/k2ow0Ddzv/y4b+cwbTq3s6a1zNPSGNFRM38jASAG5+MPvIn8kQ2DlgWrPWs4E3y5UbwVUiobC1yJqDbxljcPbN1SupB31mb3IR0iMDzTbBsZq94Qj6dq80mNL276H+RJIyjqjshZJW+DGqHNoyhWAXVduQDh5Z5AnL13TTOS1ur7Kic8MoAFAl2NnmWNkxdEitQFykavueBgJ+pSBfdUI2NzG+ofxrqlkwzNkPIQNnnG7hpAtQ3PttPiU36lqybEsrj+xsh8pSK6vVXKP7Anb58hExxSMuv1M2lk5dKRo98EE83f7uH3eVY+Xzx1uHO3hzTNscrWoVR0CTDGa5ZgGQmMEwoFapLGiWEg7lK0OXrurhARSovgQsTrlNZa0SPc5X6Dl4hHxS3FxzzkT1YEvh08r3OS1TqZfaBhbbD3skh44Leg2Er6l+7i5reLvS0RF93YOFSl+6lqwMP22bySWa20= rahul@rahul-pc
+"
+    ];
     packages = with pkgs; [
     #  thunderbird
     ];
@@ -90,6 +105,17 @@
      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      git
      gh
+     fzf
+     htop
+     jq
+     tree
+
+     curl
+     btop
+
+	# Experimental
+	rofi
+
   #  wget
   ];
 
@@ -104,7 +130,15 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+    };
+    openFirewall = true;
+  };
+
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
