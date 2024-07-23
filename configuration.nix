@@ -69,6 +69,7 @@
   # services.xserver.libinput.enable = true;
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
+  # https://nixos.wiki/wiki/Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs = {
@@ -105,19 +106,36 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+     # Essentials
      git
-     gh
+     autojump
      fzf
      htop
-     jq
+     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
      tree
+     jq
+     tmux
+     thefuck
+     tldr
 
      curl
+     gh
+
+     # Quality of life 
+     ripgrep
+     lazydocker
+     dua
+     lazygit
+     dive # Docker layers inspect tool
      btop
 
-	# Experimental
-	rofi
+     # Extras
+     # rustc
+     # rustup
+     # cargo
+
+     # Experimental
+     rofi
 
   #  wget
   ];
