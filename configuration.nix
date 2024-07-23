@@ -5,10 +5,9 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [ # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -73,14 +72,13 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   programs = {
-     zsh = {
-        enable = true;
-        autosuggestions.enable = true;
-        zsh-autoenv.enable = true;
-        syntaxHighlighting.enable = true;
-     };
+    zsh = {
+      enable = true;
+      autosuggestions.enable = true;
+      zsh-autoenv.enable = true;
+      syntaxHighlighting.enable = true;
+    };
   };
-
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vader = {
@@ -88,13 +86,13 @@
     description = "vader";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCEsztEnDtojTl8Nlxx51YS4A2RGCUUIbxGM+6cX9/k2ow0Ddzv/y4b+cwbTq3s6a1zNPSGNFRM38jASAG5+MPvIn8kQ2DlgWrPWs4E3y5UbwVUiobC1yJqDbxljcPbN1SupB31mb3IR0iMDzTbBsZq94Qj6dq80mNL276H+RJIyjqjshZJW+DGqHNoyhWAXVduQDh5Z5AnL13TTOS1ur7Kic8MoAFAl2NnmWNkxdEitQFykavueBgJ+pSBfdUI2NzG+ofxrqlkwzNkPIQNnnG7hpAtQ3PttPiU36lqybEsrj+xsh8pSK6vVXKP7Anb58hExxSMuv1M2lk5dKRo98EE83f7uH3eVY+Xzx1uHO3hzTNscrWoVR0CTDGa5ZgGQmMEwoFapLGiWEg7lK0OXrurhARSovgQsTrlNZa0SPc5X6Dl4hHxS3FxzzkT1YEvh08r3OS1TqZfaBhbbD3skh44Leg2Er6l+7i5reLvS0RF93YOFSl+6lqwMP22bySWa20= rahul@rahul-pc
-"
-    ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
+    openssh.authorizedKeys.keys = [''
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCEsztEnDtojTl8Nlxx51YS4A2RGCUUIbxGM+6cX9/k2ow0Ddzv/y4b+cwbTq3s6a1zNPSGNFRM38jASAG5+MPvIn8kQ2DlgWrPWs4E3y5UbwVUiobC1yJqDbxljcPbN1SupB31mb3IR0iMDzTbBsZq94Qj6dq80mNL276H+RJIyjqjshZJW+DGqHNoyhWAXVduQDh5Z5AnL13TTOS1ur7Kic8MoAFAl2NnmWNkxdEitQFykavueBgJ+pSBfdUI2NzG+ofxrqlkwzNkPIQNnnG7hpAtQ3PttPiU36lqybEsrj+xsh8pSK6vVXKP7Anb58hExxSMuv1M2lk5dKRo98EE83f7uH3eVY+Xzx1uHO3hzTNscrWoVR0CTDGa5ZgGQmMEwoFapLGiWEg7lK0OXrurhARSovgQsTrlNZa0SPc5X6Dl4hHxS3FxzzkT1YEvh08r3OS1TqZfaBhbbD3skh44Leg2Er6l+7i5reLvS0RF93YOFSl+6lqwMP22bySWa20= rahul@rahul-pc
+    ''];
+    packages = with pkgs;
+      [
+        #  thunderbird
+      ];
   };
 
   # Install firefox.
@@ -106,38 +104,40 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     # Essentials
-     git
-     autojump
-     fzf
-     htop
-     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     tree
-     jq
-     tmux
-     thefuck
-     tldr
+    # Essentials
+    git
+    autojump
+    fzf
+    htop
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    tree
+    jq
+    tmux
+    thefuck
+    tldr
 
-     curl
-     gh
+    curl
+    gh
 
-     # Quality of life 
-     ripgrep
-     lazydocker
-     dua
-     lazygit
-     dive # Docker layers inspect tool
-     btop
+    # Quality of life 
+    ripgrep
+    lazydocker
+    dua
+    lazygit
+    dive # Docker layers inspect tool
+    btop
 
-     # Extras
-     # rustc
-     # rustup
-     # cargo
+    # Extras
+    # rustc
+    # rustup
+    # cargo
 
-     # Experimental
-     rofi
+    # Experimental
+    rofi
 
-  #  wget
+    nixfmt
+
+    #  wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -159,7 +159,6 @@
     };
     openFirewall = true;
   };
-
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

@@ -1,6 +1,13 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./modules/home/zsh.nix
+    ./modules/home/starship.nix
+    ./modules/home/tmux.nix
+    ./modules/home/git.nix
+  ];
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "vader";
@@ -15,7 +22,6 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "24.05";
-
 
   home.packages = with pkgs; [
     # here is some command line tools I use frequently
@@ -40,12 +46,12 @@
     # networking tools
     mtr # A network diagnostic tool
     iperf3
-    dnsutils  # `dig` + `nslookup`
+    dnsutils # `dig` + `nslookup`
     ldns # replacement of `dig`, it provide the command `drill`
     aria2 # A lightweight multi-protocol & multi-source command-line download utility
     socat # replacement of openbsd-netcat
     nmap # A utility for network discovery and security auditing
-    ipcalc  # it is a calculator for the IPv4/v6 addresses
+    ipcalc # it is a calculator for the IPv4/v6 addresses
 
     # misc
     cowsay
@@ -68,7 +74,7 @@
     hugo # static site generator
     glow # markdown previewer in terminal
 
-    btop  # replacement of htop/nmon
+    btop # replacement of htop/nmon
     iotop # io monitoring
     iftop # network monitoring
 
@@ -83,42 +89,7 @@
     ethtool
     pciutils # lspci
     usbutils # lsusb
- ];
-
-
-  programs.git = {
-    enable = true;
-    userName = "Rahul Deshar";
-    userEmail = "desarrahul@gmail.com";
-  };
-
-  programs.starship = {
-    enable = true;
-    # custom settings
-    settings = {
-      add_newline = false;
-      aws.disabled = true;
-      gcloud.disabled = true;
-      line_break.disabled = true;
-    };
-  };
-
-
- programs.zsh = {
-   enable = true;
-
-   # set some aliases, feel free to add more or remove some
-   shellAliases = {
-	test = "pwd";
-   };
- };
-
-
-#      autosuggestions.enable = true;
-#      zsh-autoenv.enable = true;
-#      syntaxHighlighting.enable = true;
-
-
+  ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
