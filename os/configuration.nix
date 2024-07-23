@@ -34,12 +34,23 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.displayManager.gdm.wayland = true;
   services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "dvorak";
+    xkb.layout = "us";
+    xkb.variant = "dvorak";
+
+    windowManager.i3 = {
+      enable = true;
+      extraPackages = with pkgs; [
+        dmenu # application launcher most people use
+        i3status # gives you the default i3 status bar
+        i3lock # default i3 screen locker
+        i3blocks # if you are planning on using i3blocks over i3status
+      ];
+    };
   };
 
   # Configure console keymap
@@ -97,6 +108,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs-stable; [
+    kitty
     # Essentials
     git
     autojump
@@ -153,7 +165,6 @@
     openFirewall = true;
   };
 
-
   # Limit the number of generations to keep
   boot.loader.systemd-boot.configurationLimit = 10;
   # boot.loader.grub.configurationLimit = 10;
@@ -185,7 +196,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
-
-
 
 }

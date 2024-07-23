@@ -1,12 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./zsh.nix
-    ./starship.nix
-    ./tmux.nix
-    ./git.nix
-  ];
+  imports = [ ./zsh.nix ./starship.nix ./tmux.nix ./git.nix ];
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
