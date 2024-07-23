@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-stable, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -71,15 +71,6 @@
   # https://nixos.wiki/wiki/Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  programs = {
-    zsh = {
-      enable = true;
-      autosuggestions.enable = true;
-      zsh-autoenv.enable = true;
-      syntaxHighlighting.enable = true;
-    };
-  };
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.vader = {
     isNormalUser = true;
@@ -89,7 +80,7 @@
     openssh.authorizedKeys.keys = [''
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCEsztEnDtojTl8Nlxx51YS4A2RGCUUIbxGM+6cX9/k2ow0Ddzv/y4b+cwbTq3s6a1zNPSGNFRM38jASAG5+MPvIn8kQ2DlgWrPWs4E3y5UbwVUiobC1yJqDbxljcPbN1SupB31mb3IR0iMDzTbBsZq94Qj6dq80mNL276H+RJIyjqjshZJW+DGqHNoyhWAXVduQDh5Z5AnL13TTOS1ur7Kic8MoAFAl2NnmWNkxdEitQFykavueBgJ+pSBfdUI2NzG+ofxrqlkwzNkPIQNnnG7hpAtQ3PttPiU36lqybEsrj+xsh8pSK6vVXKP7Anb58hExxSMuv1M2lk5dKRo98EE83f7uH3eVY+Xzx1uHO3hzTNscrWoVR0CTDGa5ZgGQmMEwoFapLGiWEg7lK0OXrurhARSovgQsTrlNZa0SPc5X6Dl4hHxS3FxzzkT1YEvh08r3OS1TqZfaBhbbD3skh44Leg2Er6l+7i5reLvS0RF93YOFSl+6lqwMP22bySWa20= rahul@rahul-pc
     ''];
-    packages = with pkgs;
+    packages = with pkgs-stable;
       [
         #  thunderbird
       ];
@@ -101,9 +92,11 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  programs = { zsh = { enable = true; }; };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs-stable; [
     # Essentials
     git
     autojump
@@ -160,6 +153,25 @@
     openFirewall = true;
   };
 
+
+  # Limit the number of generations to keep
+  boot.loader.systemd-boot.configurationLimit = 10;
+  # boot.loader.grub.configurationLimit = 10;
+
+  # Perform garbage collection weekly to maintain low disk usage
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 1w";
+  };
+
+  # Optimize storage
+  # You can also manually optimize the store via:
+  #    nix-store --optimise
+  # Refer to the following link for more details:
+  # https://nixos.org/manual/nix/stable/command-ref/conf-file.html#conf-auto-optimise-store
+  nix.settings.auto-optimise-store = true;
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -173,5 +185,7 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
+
+
 
 }
