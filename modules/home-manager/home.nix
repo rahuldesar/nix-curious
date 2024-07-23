@@ -2,10 +2,10 @@
 
 {
   imports = [
-    ./modules/home/zsh.nix
-    ./modules/home/starship.nix
-    ./modules/home/tmux.nix
-    ./modules/home/git.nix
+    ./zsh.nix
+    ./starship.nix
+    ./tmux.nix
+    ./git.nix
   ];
 
   # Home Manager needs a bit of information about you and the

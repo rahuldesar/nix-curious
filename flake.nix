@@ -18,12 +18,12 @@
         };
       };
       modules = [
-        ./configuration.nix
+        ./os/configuration.nix
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.vader = import ./home.nix;
+          home-manager.users.vader = import ./modules/home-manager/home.nix;
 
           # Optionally, use home-manager.extraSpecialArgs to pass
           # arguments to home.nix
